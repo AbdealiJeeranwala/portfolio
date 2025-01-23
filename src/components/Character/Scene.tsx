@@ -20,6 +20,8 @@ const Scene = () => {
   const { setLoading } = useLoading();
 
   const [character, setChar] = useState<THREE.Object3D | null>(null);
+  let debounce: number = 0;
+
   useEffect(() => {
     if (canvasDiv.current) {
       let rect = canvasDiv.current.getBoundingClientRect();
@@ -81,14 +83,13 @@ const Scene = () => {
       const onMouseMove = (event: MouseEvent) => {
         handleMouseMove(event, (x, y) => (mouse = { x, y }));
       };
-      let debounce: number | undefined;
       const onTouchStart = (event: TouchEvent) => {
         const element = event.target as HTMLElement;
         debounce = setTimeout(() => {
           element?.addEventListener("touchmove", (e: TouchEvent) =>
             handleTouchMove(e, (x, y) => (mouse = { x, y }))
           );
-        }, 200);
+        }, 200) as unknown as number;
       };
 
       const onTouchEnd = () => {
@@ -127,7 +128,10 @@ const Scene = () => {
       };
       animate();
       return () => {
-        clearTimeout(debounce);
+        if (debounce) {
+          clearTimeout(debounce);
+          debounce = 0;
+        }
         scene.clear();
         renderer.dispose();
         window.removeEventListener("resize", () =>

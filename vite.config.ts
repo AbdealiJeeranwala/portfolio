@@ -9,5 +9,7 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true
   },
-  base: '/portfolio/'
+  optimizeDeps: {
+    include: ['react-dom/client']
+  }
 });

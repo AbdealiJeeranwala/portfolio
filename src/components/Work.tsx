@@ -25,7 +25,7 @@ const Work = () => {
                 Visit Site <MdArrowOutward />
               </a>
             </div>
-            <WorkImage image="/images/tweetbar.webp" alt="TweetBar Screenshot" />
+            <WorkImage image="./images/tweetbar.webp" alt="TweetBar Screenshot" />
           </div>
 
           <div className="work-box">
@@ -43,7 +43,7 @@ const Work = () => {
                 Visit Site <MdArrowOutward />
               </a>
             </div>
-            <WorkImage image="/images/tahfeez.webp" alt="Tahfeez Mumbai Screenshot" />
+            <WorkImage image="./images/tahfeez.webp" alt="Tahfeez Mumbai Screenshot" />
           </div>
         </div>
       </div>

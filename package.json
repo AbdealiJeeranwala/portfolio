@@ -1,16 +1,13 @@
 {
   "name": "abdeali-portfolio",
   "private": true,
-  "homepage": "https://AbdealiJeeranwala.github.io/portfolio",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "tsc -b && vite build",
+    "build": "tsc --noEmit && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@react-three/cannon": "^6.6.0",
@@ -29,7 +26,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.17.16",
-    "@types/react": "^18.3.3",
+    "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.9.0",
@@ -37,7 +34,7 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "gh-pages": "^6.3.0",
     "globals": "^15.9.0",
-    "typescript": "^5.5.3",
+    "typescript": "^5.7.3",
     "vite": "^5.4.14"
   }
 }
