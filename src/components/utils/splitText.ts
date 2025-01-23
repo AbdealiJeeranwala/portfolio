@@ -4,8 +4,8 @@ import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
 import { SplitText } from "gsap-trial/SplitText";
 
 interface ParaElement extends HTMLElement {
-  anim?: gsap.core.Animation;
-  split?: SplitText;
+  observer?: IntersectionObserver;
+  splitWords?: HTMLSpanElement[];
 }
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
@@ -13,68 +13,54 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 export default function setSplitText() {
   ScrollTrigger.config({ ignoreMobileResize: true });
   if (window.innerWidth < 900) return;
-  const paras: NodeListOf<ParaElement> = document.querySelectorAll(".para");
-  const titles: NodeListOf<ParaElement> = document.querySelectorAll(".title");
+  
+  const paras = document.querySelectorAll<ParaElement>(".para");
+  const titles = document.querySelectorAll<ParaElement>(".title");
 
-  const TriggerStart = window.innerWidth <= 1024 ? "top 60%" : "20% 60%";
-  const ToggleAction = "play pause resume reverse";
-
-  paras.forEach((para: ParaElement) => {
-    para.classList.add("visible");
-    if (para.anim) {
-      para.anim.progress(1).kill();
-      para.split?.revert();
+  const animateElement = (element: ParaElement, isTitle: boolean = false) => {
+    // Clean up previous observers
+    if (element.observer) {
+      element.observer.disconnect();
     }
 
-    para.split = new SplitText(para, {
-      type: "lines,words",
-      linesClass: "split-line",
+    // Split text
+    const text = element.textContent || '';
+    element.textContent = '';
+    
+    const words = text.split(' ').map(word => {
+      const span = document.createElement('span');
+      span.style.display = 'inline-block';
+      span.style.opacity = '0';
+      span.style.transform = `translateY(80px) ${isTitle ? 'rotate(10deg)' : ''}`;
+      span.style.transition = `all ${isTitle ? '0.8s' : '1s'} ease-out`;
+      span.textContent = word + ' ';
+      return span;
     });
 
-    para.anim = gsap.fromTo(
-      para.split.words,
-      { autoAlpha: 0, y: 80 },
-      {
-        autoAlpha: 1,
-        scrollTrigger: {
-          trigger: para.parentElement?.parentElement,
-          toggleActions: ToggleAction,
-          start: TriggerStart,
-        },
-        duration: 1,
-        ease: "power3.out",
-        y: 0,
-        stagger: 0.02,
+    element.splitWords = words;
+    words.forEach(word => element.appendChild(word));
+
+    // Create observer
+    element.observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        words.forEach((word, index) => {
+          setTimeout(() => {
+            word.style.opacity = '1';
+            word.style.transform = 'translateY(0) rotate(0)';
+          }, index * (isTitle ? 30 : 20));
+        });
+        element.observer?.disconnect();
       }
-    );
-  });
-  titles.forEach((title: ParaElement) => {
-    if (title.anim) {
-      title.anim.progress(1).kill();
-      title.split?.revert();
-    }
-    title.split = new SplitText(title, {
-      type: "chars,lines",
-      linesClass: "split-line",
+    }, {
+      threshold: 0.3,
+      rootMargin: '0px 0px -10% 0px'
     });
-    title.anim = gsap.fromTo(
-      title.split.chars,
-      { autoAlpha: 0, y: 80, rotate: 10 },
-      {
-        autoAlpha: 1,
-        scrollTrigger: {
-          trigger: title.parentElement?.parentElement,
-          toggleActions: ToggleAction,
-          start: TriggerStart,
-        },
-        duration: 0.8,
-        ease: "power2.inOut",
-        y: 0,
-        rotate: 0,
-        stagger: 0.03,
-      }
-    );
-  });
+
+    element.observer.observe(element);
+  };
+
+  paras.forEach(para => animateElement(para));
+  titles.forEach(title => animateElement(title, true));
 
   ScrollTrigger.addEventListener("refresh", () => setSplitText());
 }

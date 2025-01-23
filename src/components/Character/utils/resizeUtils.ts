@@ -1,6 +1,4 @@
 import * as THREE from "three";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
 
 export default function handleResize(
   renderer: THREE.WebGLRenderer,
@@ -15,12 +13,14 @@ export default function handleResize(
   renderer.setSize(width, height);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
-  const workTrigger = ScrollTrigger.getById("work");
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (trigger != workTrigger) {
-      trigger.kill();
-    }
-  });
-  setCharTimeline(character, camera);
-  setAllTimeline();
+  
+  // Remove ScrollTrigger references and use native scroll handling
+  updateCharacterPosition(character, camera);
+}
+
+function updateCharacterPosition(character: THREE.Object3D, camera: THREE.PerspectiveCamera) {
+  const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+  // Add your character animation logic here based on scroll progress
+  character.position.y = Math.sin(scrollProgress * Math.PI) * 2;
+  camera.lookAt(character.position);
 }

@@ -129,28 +129,33 @@ const TechStack = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const threshold = document
-        .getElementById("work")!
-        .getBoundingClientRect().top;
-      setIsActive(scrollY > threshold);
+      const workSection = document.getElementById("work");
+      if (!workSection) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            setIsActive(entry.isIntersecting);
+          });
+        },
+        { threshold: 0.3 }
+      );
+
+      observer.observe(workSection);
+      return () => observer.disconnect();
     };
+
+    handleScroll();
+
+    // Handle anchor clicks
     document.querySelectorAll(".header a").forEach((elem) => {
       const element = elem as HTMLAnchorElement;
       element.addEventListener("click", () => {
-        const interval = setInterval(() => {
-          handleScroll();
-        }, 10);
-        setTimeout(() => {
-          clearInterval(interval);
-        }, 1000);
+        requestAnimationFrame(handleScroll);
       });
     });
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
+
   const materials = useMemo(() => {
     return textures.map(
       (texture) =>

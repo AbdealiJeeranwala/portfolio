@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { DRACOLoader, GLTF, GLTFLoader } from "three-stdlib";
-import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
+import { createCharacterTimeline } from '../../../utils/scrollAnimations';
 import { decryptFile } from "./decrypt";
 
 const setCharacter = (
@@ -37,8 +37,11 @@ const setCharacter = (
               }
             });
             resolve(gltf);
-            setCharTimeline(character, camera);
-            setAllTimeline();
+            const screenLight = character.getObjectByName("screenlight") as THREE.PointLight;
+            const monitor = character.getObjectByName("Plane004");
+            if (screenLight && monitor) {
+              createCharacterTimeline(character, camera, screenLight, monitor);
+            }
             character!.getObjectByName("footR")!.position.y = 3.36;
             character!.getObjectByName("footL")!.position.y = 3.36;
             dracoLoader.dispose();
