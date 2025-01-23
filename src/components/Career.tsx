@@ -15,43 +15,30 @@ const Career = () => {
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Full Stack Developer</h4>
+                <h5>Qism al-Tahfeez, Mahad al-Zahra - Mumbai</h5>
               </div>
-              <h3>20XX</h3>
+              <h3>2022</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Developed and maintained the official website for Qism al-Tahfeez 
+              (<a href="https://tahfeezmumbai.com/" target="_blank" rel="noopener noreferrer">tahfeezmumbai.com</a>). 
+              Built a comprehensive system with Admin Panel, Venue-Incharge Panel, 
+              Teacher Panel and Student Panel. Implemented using PHP and MySQL.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Personal Project</h4>
+                <h5>TweetBar Social Platform</h5>
               </div>
-              <h3>20XX</h3>
+              <h3>2023</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
-            </p>
-          </div>
-          <div className="career-info-box">
-            <div className="career-info-in">
-              <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
-              </div>
-              <h3>NOW</h3>
-            </div>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Developed a social media platform (<a href="https://abdealij.pythonanywhere.com/" target="_blank" rel="noopener noreferrer">TweetBar</a>) 
+              using Django and Python. Features include user authentication, 
+              tweet creation, image uploads, and social interactions.
             </p>
           </div>
         </div>
