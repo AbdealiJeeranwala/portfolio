@@ -1,14 +1,17 @@
 import { useEffect, useRef } from "react";
 import "./styles/WhatIDo.css";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const WhatIDo = () => {
   const containerRef = useRef<(HTMLDivElement | null)[]>([]);
   const setRef = (el: HTMLDivElement | null, index: number) => {
     containerRef.current[index] = el;
   };
+
   useEffect(() => {
-    if (ScrollTrigger.isTouch) {
+    // Replace ScrollTrigger.isTouch with a simple touch detection
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    if (isTouchDevice) {
       containerRef.current.forEach((container) => {
         if (container) {
           container.classList.remove("what-noTouch");
@@ -16,6 +19,7 @@ const WhatIDo = () => {
         }
       });
     }
+
     return () => {
       containerRef.current.forEach((container) => {
         if (container) {
@@ -24,6 +28,7 @@ const WhatIDo = () => {
       });
     };
   }, []);
+
   return (
     <div className="whatIDO">
       <div className="what-box">
@@ -153,7 +158,6 @@ function handleClick(container: HTMLDivElement) {
   container.classList.remove("what-sibling");
   if (container.parentElement) {
     const siblings = Array.from(container.parentElement.children);
-
     siblings.forEach((sibling) => {
       if (sibling !== container) {
         sibling.classList.remove("what-content-active");

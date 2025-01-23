@@ -1,10 +1,6 @@
 import { useEffect } from "react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
-import { gsap } from "gsap";
 import "./styles/Navbar.css";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
   useEffect(() => {
@@ -19,14 +15,14 @@ const Navbar = () => {
       }
     };
 
-    const links = document.querySelectorAll(".header ul a");
+    const links = document.querySelectorAll<HTMLAnchorElement>(".header ul a");
     links.forEach((elem) => {
-      elem.addEventListener("click", handleClick);
+      elem.addEventListener("click", handleClick as EventListener);
     });
 
     return () => {
       links.forEach((elem) => {
-        elem.removeEventListener("click", handleClick);
+        elem.removeEventListener("click", handleClick as EventListener);
       });
     };
   }, []);
