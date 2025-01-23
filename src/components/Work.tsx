@@ -1,8 +1,6 @@
+import { MdArrowOutward } from "react-icons/md";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { MdArrowOutward } from "react-icons/md";
 
 const Work = () => {
   return (
